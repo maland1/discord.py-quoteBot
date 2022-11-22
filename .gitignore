@@ -1,6 +1,6 @@
 # Project Specific
 env.py
-quotelist.json
+quoteList.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

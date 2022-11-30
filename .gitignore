@@ -1,6 +1,7 @@
 # Project Specific
 env.py
 .json
+pythonBot.code-workspace
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

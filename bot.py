@@ -13,7 +13,7 @@ GUILD = env.GUILD
 
 # Initialising bot basics
 intents = discord.Intents().all()
-bot = commands.Bot(command_prefix=["ZZZ ", "ZZz ", "Zzz ", "zzz ", "z", "Z", "z.", "Z."], intents = discord.Intents().all())
+bot = commands.Bot(command_prefix=["ZZZ ", "ZZz ", "Zzz ", "zzz ", "z.", "Z."], intents = discord.Intents().all())
 
 
 # First thing the bot does on launch
@@ -21,11 +21,9 @@ bot = commands.Bot(command_prefix=["ZZZ ", "ZZz ", "Zzz ", "zzz ", "z", "Z", "z.
 async def on_ready():
     print(f"{bot.user.name} reporting for duty!")
 
-# Bot looping
 
 # Bot commands
-
-# Quote command
+## Quote command
 @bot.command(aliases = ["q"])
 async def quote(ctx, *, user_name: str = None):
     with open("quotes.json", "r") as quoteDB:
@@ -54,6 +52,7 @@ async def quote(ctx, *, user_name: str = None):
             else:
                 await ctx.send("Sorry, no user found.")
 
+## Add Quote command
 @bot.command(aliases = ["aq"])
 async def add_quote(ctx, user_name: str, *, quote: str = None):
     if quote is None:
@@ -77,6 +76,7 @@ async def add_quote(ctx, user_name: str, *, quote: str = None):
                 return
     await ctx.send(f"Sorry, {user_name} not found.")
 
+## Last Quote command
 @bot.command(aliases = ["lq", "last q"])
 async def last_quote(ctx):
     with open("lastQuote.json", "r") as lastQDB:
@@ -86,6 +86,7 @@ async def last_quote(ctx):
     else:
         await ctx.send("No quotes have been added yet.")
 
+## List Quote command
 @bot.command(aliases=["liq", "list q"])
 async def list_quotes(ctx, *, user_name: str = None):
     with open("quotes.json", "r") as quoteDB:
@@ -109,6 +110,7 @@ async def list_quotes(ctx, *, user_name: str = None):
                     return
         await ctx.send(f"Sorry, {user_name} not found.")
 
+## Birthday command
 @bot.command(aliases=["b", "bday"])
 async def birthday(ctx, *, user_name: str = None):
     with open ("quotes.json", "r") as birthdayDB:
@@ -118,7 +120,7 @@ async def birthday(ctx, *, user_name: str = None):
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, CommandNotFound):
-        await ctx.send(f"Either the command wasn't used correctly.. || Or something is broken - (use 'Zzz help') ||")
+        await ctx.send(f"Either the command wasn't used correctly.. || Or something is broken - (@andycap#5570) ||")
         return
     raise error
 

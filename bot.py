@@ -4,6 +4,7 @@ import env
 import random
 import os
 import discord
+import rasp.py
 from discord.ext import commands, tasks
 from discord.ext.commands import CommandNotFound
 
@@ -115,6 +116,12 @@ async def list_quotes(ctx, *, user_name: str = None):
 async def birthday(ctx, *, user_name: str = None):
     with open ("quotes.json", "r") as birthdayDB:
         data = json.load()
+        
+## Bot Update command
+@bot.command(aliases=["upd"])
+async def update_bot(ctx, *, user_name: str = None):
+    try:
+    	rasp.update_bot()
 
 # Error handling    
 @bot.event
@@ -124,4 +131,5 @@ async def on_command_error(ctx, error):
         return
     raise error
 
+>>>>>>> Stashed changes
 bot.run(TOKEN)

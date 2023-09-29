@@ -4,7 +4,7 @@ import env
 import random
 import os
 import discord
-import rasp.py
+from rasp import rasp
 from discord.ext import commands, tasks
 from discord.ext.commands import CommandNotFound
 
@@ -120,7 +120,6 @@ async def birthday(ctx, *, user_name: str = None):
 ## Bot Update command
 @bot.command(aliases=["upd"])
 async def update_bot(ctx, *, user_name: str = None):
-    try:
     	rasp.update_bot()
 
 # Error handling    
@@ -130,6 +129,5 @@ async def on_command_error(ctx, error):
         await ctx.send(f"Either the command wasn't used correctly.. || Or something is broken - (@andycap#5570) ||")
         return
     raise error
-
->>>>>>> Stashed changes
+    
 bot.run(TOKEN)

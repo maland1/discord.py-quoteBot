@@ -4,6 +4,7 @@ import env
 import random
 import os
 import discord
+from rasp import rasp
 from discord.ext import commands, tasks
 from discord.ext.commands import CommandNotFound
 
@@ -115,6 +116,11 @@ async def list_quotes(ctx, *, user_name: str = None):
 async def birthday(ctx, *, user_name: str = None):
     with open ("quotes.json", "r") as birthdayDB:
         data = json.load()
+        
+## Bot Update command
+@bot.command(aliases=["upd"])
+async def update_bot(ctx, *, user_name: str = None):
+    	rasp.update_bot()
 
 # Error handling    
 @bot.event
@@ -123,5 +129,5 @@ async def on_command_error(ctx, error):
         await ctx.send(f"Either the command wasn't used correctly.. || Or something is broken - (@andycap#5570) ||")
         return
     raise error
-
+    
 bot.run(TOKEN)

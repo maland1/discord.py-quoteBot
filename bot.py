@@ -119,25 +119,19 @@ async def birthday(ctx, *, user_name: str = None):
         data = json.load(quoteDB)
         if user_name is None:
             # Chooses nearest birthday
-            today = datetime.now()
-            nearest_date = None
+            today = datetime.today()
 
-            # Load JSON data
-            data = json.load(json_data)
             for person in data["users"]:
-                aliases = person.get("aliases", [])
-                birthday_str = person.get("birthday", "")
+                user = data["users"]
+                person = random.choice(user)
+                birthday_str = person["birthday"]
                 birthday = datetime.strptime(birthday_str, "%d/%m").replace(year=today.year)
 
-                # Check if the birthday is in the future
-                if birthday >= today:
+                # Check if the birthday is in the future and that it's not null
+                if birthday >= today and birthday != null:
                     days_until_birthday = (birthday - today).days
 
-                    # Update nearest date if the current one is closer
-                    if nearest_date is None or birthday < nearest_date:
-                        nearest_date = birthday
-
-                        await ctx.send(f"The next birthday is {user_name}'s on {nearest_date.strftime('%d/%m')}")
+                    await ctx.send(f"The next birthday is {user_name}'s on {birthday.strftime('%d/%m')}")
         else:
             for person in data["users"]:
                 if user_name in person["aliases"]:

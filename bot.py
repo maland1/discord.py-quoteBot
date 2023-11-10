@@ -3,6 +3,7 @@ import json
 import env
 import random
 import os
+import datetime
 import discord
 from rasp import rasp
 from discord.ext import commands, tasks
@@ -14,7 +15,7 @@ GUILD = env.GUILD
 
 # Initialising bot basics
 intents = discord.Intents().all()
-bot = commands.Bot(command_prefix=["ZZZ ", "ZZz ", "Zzz ", "zzz ", "z.", "Z."], intents = discord.Intents().all())
+bot = commands.Bot(command_prefix=["ZZZ ", "ZZz ", "Zzz ", "zzz ", "z.", "Z."], intents)
 
 
 # First thing the bot does on launch
@@ -115,7 +116,38 @@ async def list_quotes(ctx, *, user_name: str = None):
 @bot.command(aliases=["b", "bday"])
 async def birthday(ctx, *, user_name: str = None):
     with open ("quotes.json", "r") as birthdayDB:
-        data = json.load()
+        data = json.load(quoteDB)
+        if user_name is None:
+            # Chooses nearest birthday
+            today = datetime.now()
+            nearest_date = None
+
+            # Load JSON data
+            data = json.load(json_data)
+            for person in data["users"]:
+                aliases = person.get("aliases", [])
+                birthday_str = person.get("birthday", "")
+                birthday = datetime.strptime(birthday_str, "%d/%m").replace(year=today.year)
+
+                # Check if the birthday is in the future
+                if birthday >= today:
+                    days_until_birthday = (birthday - today).days
+
+                    # Update nearest date if the current one is closer
+                    if nearest_date is None or birthday < nearest_date:
+                        nearest_date = birthday
+
+                        await ctx.send(f"The next birthday is {user_name}'s on {nearest_date.strftime('%d/%m')}")
+        else:
+            for person in data["users"]:
+                if user_name in person["aliases"]:
+                    birthday = person["birthday"]
+                    if birthday != "":
+                        await ctx.send(f"{person['aliases'][0]}'s birthday is on {birthday}.")
+                    else:
+                        await ctx.send(f"Sorry, {person['aliases'][0]} doesn't have a birthday.")
+                    return
+            await ctx.send(f"Sorry, {user_name} not found.")
         
 ## Bot Update command
 @bot.command(aliases=["upd"])

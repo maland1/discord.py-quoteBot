@@ -122,16 +122,24 @@ async def birthday(ctx, *, user_name: str = None):
             today = datetime.today()
 
             for person in data["users"]:
-                user = data["users"]
-                person = random.choice(user)
-                birthday_str = person["birthday"]
-                birthday = datetime.strptime(birthday_str, "%d/%m").replace(year=today.year)
+                user_aliases = person.get("aliases", [])  
+                user_name = user_aliases[0]
+                birthday_str = person.get("birthday", "")
 
-                # Check if the birthday is in the future and that it's not null
-                if birthday >= today and birthday != null:
-                    days_until_birthday = (birthday - today).days
+                if birthday_str:
+                    birthday = datetime.strptime(birthday_str, "%d/%m").replace(year=today.year)
 
-                    await ctx.send(f"The next birthday is {user_name}'s on {birthday.strftime('%d/%m')}")
+                    # Check if the birthday is in the future
+                    if birthday >= today:
+                        days_until_birthday = (birthday - today).days
+
+                        # Update if the current person has a closer birthday
+                        if days_until_birthday < days_until_next_birthday:
+                            days_until_next_birthday = days_until_birthday
+                            next_birthday_person = user_name
+
+                            if next_birthday_person:
+                                print(f"The next birthday is {next_birthday_person}'s, which is in {days_until_next_birthday} days.")
         else:
             for person in data["users"]:
                 if user_name in person["aliases"]:

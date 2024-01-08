@@ -161,8 +161,9 @@ async def birthday(ctx, *, userID: str = None):
                 birthday_str = name.get("birthday", "")
 
                 if birthday_str:
-                    birthday = datetime.strptime(birthday_str, "%d/%m").replace(year=today.year).date()
 
+                    birthday = datetime.strptime(birthday_str, "%d/%m").replace(year=today.year).date()
+                    
                     # Check if the birthday is in the future
                     if birthday >= today:
                         days_until_birthday = (birthday - today).days
@@ -178,6 +179,7 @@ async def birthday(ctx, *, userID: str = None):
             for name in data["users"]:
 
                 if userID in name["aliases"]:
+
                     birthday_date = name.get("birthday", "")
                     
                     if birthday_date:

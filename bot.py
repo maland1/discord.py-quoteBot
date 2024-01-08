@@ -161,9 +161,8 @@ async def birthday(ctx, *, userID: str = None):
                 birthday_str = name.get("birthday", "")
 
                 if birthday_str:
-
                     birthday = datetime.strptime(birthday_str, "%d/%m").replace(year=today.year).date()
-                    
+
                     # Check if the birthday is in the future
                     if birthday >= today:
                         days_until_birthday = (birthday - today).days
@@ -179,12 +178,12 @@ async def birthday(ctx, *, userID: str = None):
             for name in data["users"]:
 
                 if userID in name["aliases"]:
-
                     birthday_date = name.get("birthday", "")
                     
                     if birthday_date:
                         birthday = datetime.strptime(birthday_date, "%d/%m").date()
-                        await ctx.send(f"{name['aliases'][0]}'s birthday is on the {birthday.strftime('%#dth of %B')}.")
+                        await ctx.send(f"{name['aliases'][0]}'s birthday is on the {birthday.strftime('%dth of %B').lstrip('0').replace(' 0', ' ')}.")
+
 
                     else:
                         await ctx.send(f"Sorry, {name['aliases'][0]} doesn't have a birthday.")

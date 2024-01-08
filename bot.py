@@ -163,6 +163,7 @@ async def birthday(ctx, *, userID: str = None):
                 if birthday_str:
                     birthday = datetime.strptime(birthday_str, "%d/%m").replace(year=today.year).date()
 
+
                     # Check if the birthday is in the future
                     if birthday >= today:
                         days_until_birthday = (birthday - today).days

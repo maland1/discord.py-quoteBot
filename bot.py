@@ -182,7 +182,7 @@ async def birthday(ctx, *, userID: str = None):
                     
                     if birthday_date:
                         birthday = datetime.strptime(birthday_date, "%d/%m").date()
-                        await ctx.send(f"{name['aliases'][0]}'s birthday is on the {birthday.strftime('%#dth of %B')}.")
+                        await ctx.send(f"{name['aliases'][0]}'s birthday is on the {birthday.strftime('%dth of %B').lstrip('0').replace(' 0', ' ')}.")
 
                     else:
                         await ctx.send(f"Sorry, {name['aliases'][0]} doesn't have a birthday.")
